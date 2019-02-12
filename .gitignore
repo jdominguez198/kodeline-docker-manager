@@ -3,3 +3,10 @@
 *.iml
 out
 gen
+
+data/logs/proxy/*
+!data/logs/proxy/.gitkeep
+data/sites/*
+!data/sites/.gitkeep
+webs/*
+!webs/.gitkeep
