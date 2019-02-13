@@ -27,6 +27,7 @@ BASE_DIR="$(dirname "${BIN_DIR}" )"/
 CNF_DIR=${BIN_DIR}cnf/
 
 source ${CNF_DIR}config.sh
+CONTAINERS_PATH=${BASE_DIR}${CONTAINERS_DIR}/
 
 SITE_NAME=$1
 RANDOM_PORT=$(awk 'BEGIN{srand();print int(rand()*(9990-9000))+9000 }')
@@ -64,13 +65,26 @@ server {
     location / {
       proxy_pass         ${INTERNAL_HOST}:${RANDOM_PORT}/${SITE_FILES_SUBDIR};
       proxy_redirect     off;
-      proxy_set_header   Host $host;
-      proxy_set_header   X-Real-IP $remote_addr;
-      proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header   X-Forwarded-Host $server_name;
+      proxy_set_header   Host \$host;
+      proxy_set_header   X-Real-IP \$remote_addr;
+      proxy_set_header   X-Forwarded-For \$proxy_add_x_forwarded_for;
+      proxy_set_header   X-Forwarded-Host \$server_name;
     }
 }
 EOF
 
-echo "The site was created successfully!"
+cd ${BASE_DIR}
+sed 's/\(=[[:blank:]]*\)\(.*\)/\1"\2"/' ${CONTAINERS_PATH}.env > ${CONTAINERS_PATH}.env.vars
+source ${CONTAINERS_PATH}.env.vars
+rm -f ${CONTAINERS_PATH}.env.vars
+
+echo ${PROXY_CONTAINER_PREFIX}
+echo $(docker ps -q -f name=${PROXY_CONTAINER_PREFIX})
+
+if [[ "$(docker ps -q -f name=${PROXY_CONTAINER_PREFIX})" ]]; then
+    echo "Reloading proxy..."
+    bin/cli proxy:reload > /dev/null 2>&1
+fi
+
+echo "The site was created and added to the proxy successfully!"
 exit 0

@@ -3,6 +3,7 @@
 # Path configs
 CONSOLE_COMMANDS_DIR="commands"
 CONSOLE_INC_DIR="inc"
+CONTAINERS_DIR="containers"
 SITES_DIR="data/sites"
 WEBS_DIR="webs"
 
