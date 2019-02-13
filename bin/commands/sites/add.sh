@@ -78,9 +78,6 @@ sed 's/\(=[[:blank:]]*\)\(.*\)/\1"\2"/' ${CONTAINERS_PATH}.env > ${CONTAINERS_PA
 source ${CONTAINERS_PATH}.env.vars
 rm -f ${CONTAINERS_PATH}.env.vars
 
-echo ${PROXY_CONTAINER_PREFIX}
-echo $(docker ps -q -f name=${PROXY_CONTAINER_PREFIX})
-
 if [[ "$(docker ps -q -f name=${PROXY_CONTAINER_PREFIX})" ]]; then
     echo "Reloading proxy..."
     bin/cli proxy:reload > /dev/null 2>&1
