@@ -30,10 +30,14 @@ usage()
     echo " command"
     echo ""
     printf "${YELLOW}Available commands:${COLOR_RESET}\n"
-	for script in "$COMMANDS_DIR"/*
+	for folder in "$COMMANDS_DIR"/*
 	do
+	    for script in "${folder}"/*
+	    do
+	        FOLDER_BASENAME=$(basename ${folder})
 	        COMMAND_BASENAME=$(basename ${script})
-    	    printf " ${GREEN}${COMMAND_BASENAME%.sh}${COLOR_RESET}\n"
+    	    printf " ${GREEN}${FOLDER_BASENAME}:${COMMAND_BASENAME%.sh}${COLOR_RESET}\n"
+    	done
 	done
 }
 
@@ -50,7 +54,13 @@ fi
 set -u
 
 
-COMMAND_NAME="$1.sh"
+COMMAND_SEPARATED=(${1//:/ })
+COMMAND_SEPARATED_LENGTH=${#COMMAND_SEPARATED[@]}
+if [ "${COMMAND_SEPARATED_LENGTH}" -gt "1" ]; then
+    COMMAND_NAME="${COMMAND_SEPARATED[0]}/${COMMAND_SEPARATED[1]}.sh"
+else
+    COMMAND_NAME="$1.sh"
+fi
 if [ ! -f ${COMMANDS_DIR}/${COMMAND_NAME} ]; then
     printf "${RED}Command not found${COLOR_RESET}\n"
     printf " Execute ${GREEN}console --help${COLOR_RESET} to see commands available\n"
