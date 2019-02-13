@@ -48,14 +48,14 @@ mkdir -p ${SITE_DIR}
 cd ${SITE_DIR}
 git clone ${MONODOCKER_REPOSITORY} ./ > /dev/null 2>&1
 rm -rf .git
-bin/cli setup --site-name=\"${SITE_NAME}\" \
-    --site-dir=\"${SITE_FILES_DIR}\" \
-    --php-fpm=\"7.2\" \
-    --gulp-dir=\"tools\" \
-    --gulp-script=\"npm start\" \
-    --httpd-port=\"${RANDOM_PORT}\" \
-    --browsersync-port=\"$(($RANDOM_PORT+1))\" \
-    --browsersync-admin-port=\"$(($RANDOM_PORT+2))\"
+bin/cli setup --site-name=${SITE_NAME} \
+    --site-dir=${SITE_FILES_DIR} \
+    --php-fpm=7.2 \
+    --gulp-dir=tools \
+    --gulp-script="npm start" \
+    --httpd-port=${RANDOM_PORT} \
+    --browsersync-port=$(($RANDOM_PORT+1)) \
+    --browsersync-admin-port=$(($RANDOM_PORT+2))
 cat << EOF > ${SITE_CONF}
 server {
     listen 80;
