@@ -1,7 +1,8 @@
 #!/bin/bash
 
 if [[ -z "$1" ]]; then
-    echo "You must specify the site name"
+    echo "The command usage:"
+    echo "site_name [--site-dir=/absolute/path/to/site] [--site-subdir=subdir] [--assets-dir=relative/path/to/assets/]"
     exit 1
 fi
 
@@ -10,17 +11,21 @@ if [[ ! "$1" =~ [0-9a-z\_\-][^\.]+ ]]; then
     exit 1
 fi
 
-if [[ -z "$2" ]]; then
-    SITE_FILES_DIR="/www/kodeline/$1"
-else
-    SITE_FILES_DIR=$2
-fi
+SITE_FILES_DIR="/www/kodeline/$1"
+SITE_FILES_SUBDIR=""
+SITE_ASSETS_DIR="./"
 
-if [[ -z "$3" ]]; then
-    SITE_FILES_SUBDIR=""
-else
-    SITE_FILES_SUBDIR="$3/"
-fi
+for i in "$@" ; do
+    if [[ "$i" =~ "--site-dir" ]]; then
+        SITE_FILES_DIR=$(echo $i | awk -F '--site-dir=' '{print $2}')
+    fi
+    if [[ "$i" =~ "--site-subdir" ]]; then
+        SITE_FILES_SUBDIR=$(echo $i | awk -F '--site-subdir=' '{print $2}')
+    fi
+    if [[ "$i" =~ "--assets-dir" ]]; then
+        SITE_ASSETS_DIR=$(echo $i | awk -F '--assets-dir=' '{print $2}')
+    fi
+done
 
 BIN_DIR="$( cd "$( dirname $(dirname $(dirname "${BASH_SOURCE[0]}" )))" >/dev/null && pwd )"/
 BASE_DIR="$(dirname "${BIN_DIR}" )"/
@@ -52,8 +57,7 @@ rm -rf .git
 bin/cli setup --site-name=${SITE_NAME} \
     --site-dir=${SITE_FILES_DIR} \
     --php-fpm=7.2 \
-    --gulp-dir=tools \
-    --gulp-script="npm start" \
+    --site-assets-dir=${SITE_ASSETS_DIR} \
     --httpd-port=${RANDOM_PORT} \
     --browsersync-port=$(($RANDOM_PORT+1)) \
     --browsersync-admin-port=$(($RANDOM_PORT+2))
