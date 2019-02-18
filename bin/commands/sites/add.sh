@@ -52,7 +52,7 @@ echo "Creating site files for \"${SITE_NAME}\"..."
 
 mkdir -p ${SITE_DIR}
 cd ${SITE_DIR}
-git clone ${MONODOCKER_REPOSITORY} ./ > /dev/null 2>&1
+git clone --branch ${MONODOCKER_VERSION} ${MONODOCKER_REPOSITORY} ./ > /dev/null 2>&1
 rm -rf .git
 bin/cli setup --site-name=${SITE_NAME} \
     --site-dir=${SITE_FILES_DIR} \
