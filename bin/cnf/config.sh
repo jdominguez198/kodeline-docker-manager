@@ -10,5 +10,4 @@ WEBS_DIR="webs"
 # Site confis
 INTERNAL_HOST="http://host.docker.internal"
 SITE_DOMAIN="kodeline"
-MONODOCKER_REPOSITORY="git@bitbucket.org:kodeline-solutions/monodocker.git"
-MONODOCKER_VERSION="1.0.0"
+DOCKER_CMS_REPOSITORY="https://github.com/jdominguez198/kodeline-docker-cms/archive/1.1.0.tar.gz"

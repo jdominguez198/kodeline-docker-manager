@@ -14,7 +14,7 @@ source ${CNF_DIR}config.sh
 SITE_NAME=$1
 SITE_CONF=${BASE_DIR}${SITES_DIR}/${SITE_NAME}.conf
 SITE_DIR=${BASE_DIR}${WEBS_DIR}/${SITE_NAME}
-SITE_ENV=${BASE_DIR}${WEBS_DIR}/${SITE_NAME}/containers/.env
+SITE_ENV=${BASE_DIR}${WEBS_DIR}/${SITE_NAME}/.env
 
 if [[ ! -d "$SITE_DIR" ]]; then
     echo "The site does not exists"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ -z "$1" ]]; then
-    echo "The command usage:"
+    echo "Usage:"
     echo "site_name [--site-dir=/absolute/path/to/site] [--site-subdir=subdir] [--assets-dir=relative/path/to/assets/]"
     exit 1
 fi
@@ -52,11 +52,12 @@ echo "Creating site files for \"${SITE_NAME}\"..."
 
 mkdir -p ${SITE_DIR}
 cd ${SITE_DIR}
-git clone --branch ${MONODOCKER_VERSION} ${MONODOCKER_REPOSITORY} ./ > /dev/null 2>&1
-rm -rf .git
-bin/cli setup --site-name=${SITE_NAME} \
+wget -qO- ${DOCKER_CMS_REPOSITORY} | tar -xzvf - -C ./ --strip-components 1
+bin/cli setup \
+    --php-fpm=7.1 \
+    --apache=2.4.38 \
+    --site-name=${SITE_NAME} \
     --site-dir=${SITE_FILES_DIR} \
-    --php-fpm=7.2 \
     --site-assets-dir=${SITE_ASSETS_DIR} \
     --httpd-port=${RANDOM_PORT} \
     --browsersync-port=$(($RANDOM_PORT+1)) \
