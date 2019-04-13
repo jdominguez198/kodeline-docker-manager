@@ -10,4 +10,4 @@ WEBS_DIR="webs"
 # Site confis
 INTERNAL_HOST="http://host.docker.internal"
 SITE_DOMAIN="kodeline"
-DOCKER_CMS_REPOSITORY="https://github.com/jdominguez198/kodeline-docker-cms/archive/1.1.0.tar.gz"
+DOCKER_CMS_REPOSITORY="https://github.com/jdominguez198/kodeline-docker-cms/archive/1.2.0.tar.gz"
