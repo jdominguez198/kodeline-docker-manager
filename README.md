@@ -69,6 +69,10 @@ Stop the containers serving your site
 
 ## ChangeLog
 
+### v1.0.1
+
+> Upgrade version from [kodeline-docker-cms](https://github.com/jdominguez198/kodeline-docker-cms)
+
 ### v1.0.0
 
 > CLI to start/stop/reload proxy docker and add/delete/start/stop sites in it
